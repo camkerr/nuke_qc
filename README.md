@@ -17,6 +17,6 @@ These scripts use Foundry's Nuke (our VFX compositing package) as a Python modul
 
 For more information about Nuke: check out the [Foundry website](https://www.foundry.com/products/nuke).
 
-For more information about using Python with Nuke : check out the [Nuke Python Dev Guide](https://learn.foundry.com/nuke/developers/112/pythondevguide/index.html) and [Nuke Python API](https://learn.foundry.com/nuke/developers/112/pythonreference/)
+For more information about using Python with Nuke: check out the [Nuke Python Dev Guide](https://learn.foundry.com/nuke/developers/112/pythondevguide/index.html) and [Nuke Python API](https://learn.foundry.com/nuke/developers/112/pythonreference/)
 
 For more information about Nuke as a Python Module: check out the [Nuke Python docs](https://learn.foundry.com/nuke/developers/112/pythondevguide/nuke_as_python_module.html).
