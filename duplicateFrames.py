@@ -49,7 +49,7 @@ def writeWarningFile(duplicatedFramesArray):
     shotName = nameOfFile.split(".")[0]
     completePath = os.path.join(savePath, shotName+".txt")
     fileContents = "Duplicate Frames detected on frames: " + str(duplicatedFramesArray)
-    file = open(completePath, "w+")
+    file = open(completePath, "a+")
     file.write(fileContents)
     file.close()
     pass
