@@ -10,7 +10,6 @@ import nuke
 def getLastFrame(filePath):
     dirPath = filePath.rsplit("\\", 1)[0]
     array = nuke.getFileNameList(dirPath+"\\")
-    print array
     for i in array:
         if ".tmp" in i:
             array.remove(i)
@@ -22,26 +21,31 @@ def getLastFrame(filePath):
 
     return int(lastFrame)
 
-def samplePixelValues(readNode, lastFrame):
-    corruptedFramesArray = []
-    for i in range(1,lastFrame):
-        nuke.frame(i)
-        value = nuke.sample(readNode, 'red', 1, 1)
-        if value == 0.0:
-            corruptedFramesArray.append(i)
-    return corruptedFramesArray
+def createNodes(readNode):
+    curveToolNode = nuke.createNode("CurveTool")
+    curveToolNode["channels"].setValue("red")
+    curveToolNode["ROI"].setValue([0,0,readNode.width(),readNode.height()])
+    curveToolNode.setInput(0, readNode)
+    return curveToolNode
 
-def writeWarningFile(corruptedFramesArray):
-    savePath = "D:/quality_check/failed_qc_shots" #VFX Co-ordinator has this folder setup as a watch folder for notifications of shots that fail QC
+def checkPixelValue(curveToolNode, lastFrame):
+    duplicatedFramesArray = []
+    for i in range(1,lastFrame):
+        value = curveToolNode["intensitydata"].isKeyAt(i)
+        if value == False:
+            duplicatedFramesArray.append(i)
+    return duplicatedFramesArray
+
+def writeWarningFile(duplicatedFramesArray):
+    savePath = "D:\\quality_check\\failed_qc_shots" #VFX Co-ordinator has this folder setup as a watch folder for notifications of shots that fail QC
     nameOfFile = filePath.split("\\")[-1]
     shotName = nameOfFile.split(".")[0]
     completePath = os.path.join(savePath, shotName+".txt")
-    fileContents = "Corruption or Errors detected on frames: " + str(corruptedFramesArray)
+    fileContents = "Corrupt Frames detected on frames: " + str(duplicatedFramesArray)
     file = open(completePath, "a+")
     file.write(fileContents)
     file.close()
     pass
-
 
 #Setup
 
@@ -51,5 +55,8 @@ if __name__ == "__main__":
     lastFrame = getLastFrame(filePath)
     readNode["last"].setValue(lastFrame)
     readNode["origlast"].setValue(lastFrame)
-    if corruptedFramesArray:
-        writeWarningFile(corruptedFramesArray)
+    curveToolNode = createNodes(readNode)
+    nuke.execute(curveToolNode, 1, lastFrame)
+    duplicatedFramesArray = checkPixelValue(curveToolNode, lastFrame)
+    if duplicatedFramesArray:
+        writeWarningFile(duplicatedFramesArray)
