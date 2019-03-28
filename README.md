@@ -11,6 +11,10 @@ This is a collection of tools that we use to check shots before delivery.  I wil
 
 We often work on VFX shots that require retimes.  It's important to double check to make sure that there are no duplicate frames back to back when delivering your shot.
 
+### corruptFrames
+
+Sometimes our .exr or .dpx files get corrupted.  We don't notice sometimes because of Nuke's caching and accidently submit bad frames for delivery.  This results in our distributor getting very upset and requesting new versions with fixed frames.
+
 ### More Info About Nuke
 
 These scripts use Foundry's Nuke (our VFX compositing package) as a Python module.
