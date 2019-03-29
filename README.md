@@ -3,15 +3,11 @@
 ---
 This is a collection of tools that we use to check shots before delivery.  I will be adding to this repo as we make more of the tools public.  These scripts run asynchronously on our render farm after a shot has been submitted for delivery.
 
-#### Tools
-
-1.  duplicateFrames.py
-
-### duplicateFrames
+### duplicateFrames.py
 
 We often work on VFX shots that require retimes.  It's important to double check to make sure that there are no duplicate frames back to back when delivering your shot.
 
-### corruptFrames
+### corruptFrames.py
 
 Sometimes our .exr or .dpx files get corrupted.  We don't notice sometimes because of Nuke's caching and accidently submit bad frames for delivery.  This results in our distributor getting very upset and requesting new versions with fixed frames.
 
